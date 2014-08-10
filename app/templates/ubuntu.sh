@@ -5,7 +5,7 @@
 
 # Timezone for the system
 TimeZone="<%= VmTimeZone %>"
-<% if (VmServiceMysql) { %>
+<% if (MysqlDatabaseFiles != '') { %>
 # Path to repo db path
 DBPath="/var/www/db"
 
@@ -21,8 +21,8 @@ MySQLDB="<% MysqlDatabaseFiles %>"<% } %>
 ########################################################################################################################
 <% if (VmServiceMysql) { %>
 # MySQL Settings
-Username="root"
-Password="123456"
+Username="<%= MysqlUsername %>"
+Password="<%= MysqlPassword %>"
 Hostname="127.0.0.1"
 # Path to mysql binary
 PathBin="/usr/bin/"<% } %>
@@ -37,8 +37,8 @@ echo $TimeZone > /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata
 
 <% if (VmServiceMysql) { %># Set a MySQL Password
-debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password 123456'
-debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password 123456'<% } %>
+debconf-set-selections <<< 'mysql-server-5.5 mysql-server/<%= MysqlUsername %>_password password <%= MysqlPassword %>'
+debconf-set-selections <<< 'mysql-server-5.5 mysql-server/<%= MysqlUsername %>_password_again password <%= MysqlPassword %>'<% } %>
 
 # Update Packet Management System
 apt-get update
@@ -48,7 +48,7 @@ apt-get install -y \<% if (VmServiceApache) { %>
     apache2 php5 php5-common libapache2-mod-php5 php5-xdebug \
     php5-gd php5-imagick php5-cli php-pear php5-xmlrpc \<% } if (VmServiceMysql) { %>
     mysql-server-5.5 mysql-client php5-mysql libdbd-mysql libapache2-mod-auth-mysql \<% } if (VmServiceTomcat) { %>
-    tomcat6 tomcat6-admin \<% } if (SoftwareGit) { %>
+    tomcat<%= TomcatVersion %> tomcat<%= TomcatVersion %>-admin \<% } if (SoftwareGit) { %>
     git git-core<% if (SoftwareGitolite) { %> gitolite gitweb <% } %> \<% } if (SoftwareNodeJs) { %>
     nodejs npm \<% } if (SoftwareSamba) { %>
     samba smbfs \<% } %>
@@ -74,7 +74,7 @@ echo 'alias cdwww="cd /var/www"' >> /home/vagrant/.bash_aliases
 ##########################
 
 rm -rf /var/www/
-ln -fs /vagrant /var/www
+ln -fs /vagrant <%= ApacheHtdocsPath %>
 
 sed -i '/ServerAdmin webmaster@localhost/c ServerAlias *.<% ApacheDomain %>.localhost' /etc/apache2/sites-available/default
 sed -i '/Options Indexes FollowSymLinks MultiViews/c Options -Indexes +FollowSymLinks' /etc/apache2/sites-available/default
@@ -85,7 +85,7 @@ echo '[Xdebug]' >> /etc/php5/apache2/php.ini
 echo 'zend_extension="/usr/lib/php5/20090626/xdebug.so"' >> /etc/php5/apache2/php.ini
 echo 'xdebug.profiler_output_dir = "/tmp/xdebug"' >> /etc/php5/apache2/php.ini
 echo 'xdebug.trace_output_dir = "/tmp/xdebug"' >> /etc/php5/apache2/php.ini
-echo 'xdebug.idekey = PHPSTORM' >> /etc/php5/apache2/php.ini
+echo 'xdebug.idekey = <%= ApacheXdebugIdeKey %>' >> /etc/php5/apache2/php.ini
 echo 'xdebug.remote_enable = 1' >> /etc/php5/apache2/php.ini
 echo 'xdebug.max_nesting_level = 500' >> /etc/php5/apache2/php.ini
 echo 'xdebug.remote_port = "<%= ApacheXdebugPort %>"' >> /etc/php5/apache2/php.ini
@@ -105,10 +105,11 @@ service apache2 restart
 sed -i '/bind-address/c #bind-address' /etc/mysql/my.cnf
 
 # Set rights to get access from anywhere
-/usr/bin/mysql -u $Username -p$Password -h $Hostname -e "UPDATE mysql.user SET Password = PASSWORD('123456') WHERE User = 'root';"
-/usr/bin/mysql -u $Username -p$Password -h $Hostname -e "GRANT ALL ON *.* TO 'root'@'%';"
+/usr/bin/mysql -u $Username -p$Password -h $Hostname -e "UPDATE mysql.user SET Password = PASSWORD('<%= MysqlPassword %>') WHERE User = '<%= MysqlUsername %>';"
+/usr/bin/mysql -u $Username -p$Password -h $Hostname -e "GRANT ALL ON *.* TO '<%= MysqlUsername %>'@'%';"
 /usr/bin/mysql -u $Username -p$Password -h $Hostname -e "FLUSH PRIVILEGES;"
 
+<% if (MysqlDatabaseFiles != '') { %>
 # ReadOnly Tabellen aus der Datei auslesen
 ReadTableNames=
 IgnoreTable=
@@ -173,7 +174,7 @@ if [ $? == 0 ]; then
 else
 	echo "Error: $DBPath/$DBName_Data.sql not found !"
 
-fi
+fi<% } %>
 
 
 service mysql restart

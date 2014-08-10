@@ -30,6 +30,15 @@
 * chef/freebsd-9.2 - A standard FreeBSD 9.2 x64 base install
 
 
+### Provision Debian Ubuntu
+
+* Apach2
+
+* MySQL
+
+* Tomcat
+
+
 ## Getting Started
 
 ### What is Yeoman?
