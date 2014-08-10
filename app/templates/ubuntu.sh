@@ -5,7 +5,7 @@
 
 # Timezone for the system
 TimeZone="<%= VmTimeZone %>"
-<% if (ServiceMysql) { %>
+<% if (VmServiceMysql) { %>
 # Path to repo db path
 DBPath="/var/www/db"
 
@@ -19,7 +19,7 @@ MySQLDB="<% MysqlDatabaseFiles %>"<% } %>
 ########################################################################################################################
 ##                                      Vagrant Bootstrap BASH Shell Script                                           ##
 ########################################################################################################################
-<% if (ServiceMysql) { %>
+<% if (VmServiceMysql) { %>
 # MySQL Settings
 Username="root"
 Password="123456"
@@ -36,7 +36,7 @@ rm /etc/timezone
 echo $TimeZone > /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata
 
-<% if (ServiceMysql) { %># Set a MySQL Password
+<% if (VmServiceMysql) { %># Set a MySQL Password
 debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password 123456'
 debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password 123456'<% } %>
 
@@ -44,15 +44,31 @@ debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again pa
 apt-get update
 
 # Install software into the system
-apt-get install -y \<% if (ServiceApache) { %>
+apt-get install -y \<% if (VmServiceApache) { %>
     apache2 php5 php5-common libapache2-mod-php5 php5-xdebug \
-    php5-gd php5-imagick php5-cli php-pear php5-xmlrpc \<% } if (ServiceMysql) { %>
-    mysql-server-5.5 mysql-client php5-mysql libdbd-mysql libapache2-mod-auth-mysql \<% } if (ServiceTomcat) { %>
-    tomcat6 tomcat6-admin \<% } %>
+    php5-gd php5-imagick php5-cli php-pear php5-xmlrpc \<% } if (VmServiceMysql) { %>
+    mysql-server-5.5 mysql-client php5-mysql libdbd-mysql libapache2-mod-auth-mysql \<% } if (VmServiceTomcat) { %>
+    tomcat6 tomcat6-admin \<% } if (SoftwareGit) { %>
+    git git-core<% if (SoftwareGitolite) { %> gitolite gitweb <% } %> \<% } if (SoftwareNodeJs) { %>
+    nodejs npm \<% } if (SoftwareSamba) { %>
+    samba smbfs \<% } %>
     openssl curl
 
 
-<% if (ServiceApache) { %>
+# Set Shell Aliases
+echo 'alias rm="rm -fv"' > /home/vagrant/.bash_aliases
+echo 'alias ex="ls -lahv --color=auto"' >> /home/vagrant/.bash_aliases
+echo 'alias ls="ls -aF --color=auto"' >> /home/vagrant/.bash_aliases
+echo 'alias df="df -B h"' >> /home/vagrant/.bash_aliases
+echo 'alias cp="cp -v"' >> /home/vagrant/.bash_aliases
+echo 'alias mv="mv -v"' >> /home/vagrant/.bash_aliases
+echo 'alias n="nano -w"' >> /home/vagrant/.bash_aliases
+echo 'alias du="du -h --max-depth 1"' >> /home/vagrant/.bash_aliases
+echo 'alias s="tail -f -n 250 /var/log/syslog"' >> /home/vagrant/.bash_aliases
+echo 'alias cdwww="cd /var/www"' >> /home/vagrant/.bash_aliases
+
+
+<% if (VmServiceApache) { %>
 ##########################
 ##  Webserver Settings  ##
 ##########################
@@ -72,7 +88,7 @@ echo 'xdebug.trace_output_dir = "/tmp/xdebug"' >> /etc/php5/apache2/php.ini
 echo 'xdebug.idekey = PHPSTORM' >> /etc/php5/apache2/php.ini
 echo 'xdebug.remote_enable = 1' >> /etc/php5/apache2/php.ini
 echo 'xdebug.max_nesting_level = 500' >> /etc/php5/apache2/php.ini
-echo 'xdebug.remote_port = "9001"' >> /etc/php5/apache2/php.ini
+echo 'xdebug.remote_port = "<%= ApacheXdebugPort %>"' >> /etc/php5/apache2/php.ini
 echo 'xdebug.remote_host = 10.0.2.2' >> /etc/php5/apache2/php.ini
 echo 'xdebug.remote_connect_back = 1' >> /etc/php5/apache2/php.ini
 
@@ -80,7 +96,7 @@ echo 'xdebug.remote_connect_back = 1' >> /etc/php5/apache2/php.ini
 a2enmod rewrite
 service apache2 restart
 
-<% } if (ServiceMysql) { %>
+<% } if (VmServiceMysql) { %>
 ######################
 ##  MySQL Settings  ##
 ######################
@@ -163,7 +179,7 @@ fi
 service mysql restart
 
 
-<% } if (ServiceTomcat) { %>
+<% } if (VmServiceTomcat) { %>
 #######################
 ##  Tomcat Settings  ##
 #######################

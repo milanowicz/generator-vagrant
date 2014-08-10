@@ -192,44 +192,52 @@ VagrantGenerator.prototype.askFor = function askFor () {
         message: 'Enter private network IP address',
         default: '10.0.0.10'
     },{
+        type: 'confirm',
+        name: 'VmServiceApache',
+        message: 'Active Apache2 Webserver?',
+        default: 'Y/n'
+    },{
+        type: 'confirm',
+        name: 'VmServiceMysql',
+        message: 'Active MySQL Database Server?',
+        default: 'Y/n'
+    },{
+        type: 'confirm',
+        name: 'VmServiceTomcat',
+        message: 'Active Tomcat Server?',
+        default: 'Y/n'
+    },{
         type: 'checkbox',
-        name: 'VmService',
-        message: 'Services',
+        name: 'VmSoftware',
+        message: 'Select your Software Packages',
         choices: [{
-            name: 'Apache',
-            value: 'apache',
-            checked: true
-        },{
-            name: 'MySQL',
-            value: 'mysql',
+            name: 'Git',
+            value: 'git',
             checked: false
         },{
-            name: 'Tomcat',
-            value: 'tomcat',
+            name: 'Gitolite',
+            value: 'gitolite',
+            checked: false
+        },{
+            name: 'NodeJS',
+            value: 'node',
+            checked: false
+        },{
+            name: 'Samba',
+            value: 'samba',
             checked: false
         }]
     }];
 
-    var ApachePrompt = [{
-        type: 'input',
-        name: 'ApacheDomain',
-        message: 'ApacheDomain',
-        default: 'dev'
-    }];
-
-    var MysqlPrompt = [{
-        type: 'input',
-        name: 'MysqlDatabaseFiles',
-        message: 'MysqlDatabaseFiles',
-        default: 'dev'
-    }];
-
+    /**
+     * Main input prompt
+     */
     this.prompt(MainPrompt, function (answers) {
 
-        var VmService           = answers.VmService;
+        var VmSoftware          = answers.VmSoftware;
 
-        function hasService (service) {
-            return VmService.indexOf(service) !== -1;
+        function hasSoftware (software) {
+            return VmSoftware.indexOf(software) !== -1;
         }
 
         this.VmName             = this._.slugify(answers.VmName);
@@ -240,26 +248,121 @@ VagrantGenerator.prototype.askFor = function askFor () {
         this.VmMemory           = answers.VmMemory;
         this.VmCpus             = answers.VmCpus;
 
-        this.ServiceApache      = hasService('apache');
-        this.ServiceMysql       = hasService('mysql');
-        this.ServiceTomcat      = hasService('tomcat');
+        this.SoftwareGit        = hasSoftware('git');
+        this.SoftwareGitolite   = hasSoftware('gitolite');
+        this.SoftwareNodeJs     = hasSoftware('node');
+        this.SoftwareSamba      = hasSoftware('samba');
 
+        this.VmServiceApache    = answers.VmServiceApache;
+        this.VmServiceMysql     = answers.VmServiceMysql;
+        this.VmServiceTomcat    = answers.VmServiceTomcat;
 
-        if (this.ServiceApache) {
-            this.prompt(ApachePrompt, function (answers) {
-                this.ApacheDomain = this._.slugify(answers.ApacheDomain);
-                done();
-            }.bind(this));
-        }
-
-        if (this.ServiceMysql) {
-            this.prompt(MysqlPrompt, function (answers) {
-                this.MysqlDatabaseFiles = this._.slugify(answers.MysqlDatabaseFiles);
-            }.bind(this));
-        }
-
-
+        done();
     }.bind(this));
+
+
+};
+
+
+/**
+ * Apache2 input prompt
+ */
+VagrantGenerator.prototype.askForApache = function askForApache () {
+    var done = this.async();
+
+    var ApachePrompt = [{
+        type: 'input',
+        name: 'ApacheDomain',
+        message: 'ApacheDomain',
+        default: 'dev'
+    },{
+        type: 'input',
+        name: 'ApacheHostPort',
+        message: 'ApacheHostPort',
+        default: '8000'
+    },{
+        type: 'input',
+        name: 'ApacheXdebugPort',
+        message: 'ApacheXdebugPort',
+        default: '9001'
+    }];
+
+    if (this.VmServiceApache) {
+
+        this.prompt(ApachePrompt, function (answers) {
+            this.ApacheDomain       = this._.slugify(answers.ApacheDomain);
+            this.ApacheHostPort     = answers.ApacheHostPort;
+            this.ApacheXdebugPort   = answers.ApacheXdebugPort;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * MySQL input prompt
+ */
+VagrantGenerator.prototype.askForMysql = function askForMysql () {
+    var done = this.async();
+
+    var MysqlPrompt = [{
+        type: 'input',
+        name: 'MysqlDatabaseFiles',
+        message: 'MysqlDatabaseFiles',
+        default: 'dev'
+    },{
+        type: 'input',
+        name: 'MysqlHostPort',
+        message: 'MysqlHostPort',
+        default: '33060'
+    }];
+
+    if (this.VmServiceMysql) {
+
+        this.prompt(MysqlPrompt, function (answers) {
+            this.MysqlDatabaseFiles = this._.slugify(answers.MysqlDatabaseFiles);
+            this.MysqlHostPort      = answers.MysqlHostPort;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * Tomcat input prompt
+ */
+VagrantGenerator.prototype.askForTomcat = function askForTomcat () {
+    var done = this.async();
+
+    var TomcatPrompt = [{
+        type: 'input',
+        name: 'TomcatGuestPort',
+        message: 'TomcatGuestPort',
+        default: '8080'
+    },{
+        type: 'input',
+        name: 'TomcatHostPort',
+        message: 'TomcatHostPort',
+        default: '8888'
+    }];
+
+    if (this.VmServiceTomcat) {
+
+        this.prompt(TomcatPrompt, function (answers) {
+            this.TomcatGuestPort    = answers.TomcatGuestPort;
+            this.TomcatHostPort     = answers.TomcatHostPort;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
 };
 
 

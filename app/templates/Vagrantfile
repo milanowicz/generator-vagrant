@@ -5,10 +5,10 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "<%= VmImageName %>"
-  config.vm.hostname = "#{$ProjectName}"<% if (ServiceApache) { %>
-  config.vm.network "forwarded_port", guest: 80, host: 8000<% } if (ServiceMysql) { %>
-  config.vm.network :forwarded_port, guest: 3306, host: 33060<% } if (ServiceTomcat) { %>
-  config.vm.network :forwarded_port, guest: 8080, host: 8888<% } %>
+  config.vm.hostname = "#{$ProjectName}"<% if (VmServiceApache) { %>
+  config.vm.network "forwarded_port", guest: 80, host: <%= ApacheHostPort %><% } if (VmServiceMysql) { %>
+  config.vm.network :forwarded_port, guest: 3306, host: <%= MysqlHostPort %><% } if (VmServiceTomcat) { %>
+  config.vm.network :forwarded_port, guest: <%= TomcatGuestPort %>, host: <%= TomcatHostPort %><% } %>
   config.vm.network :private_network, ip: "<%= VmPrivateIp %>"
   config.vm.provider "virtualbox" do |v|
     v.memory = <%= VmMemory %>
