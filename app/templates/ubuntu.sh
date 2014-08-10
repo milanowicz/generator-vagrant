@@ -45,13 +45,17 @@ apt-get update
 
 # Install software into the system
 apt-get install -y \<% if (VmServiceApache) { %>
-    apache2 php5 php5-common libapache2-mod-php5 php5-xdebug \
-    php5-gd php5-imagick php5-cli php-pear php5-xmlrpc \<% } if (VmServiceMysql) { %>
-    mysql-server-5.5 mysql-client php5-mysql libdbd-mysql libapache2-mod-auth-mysql \<% } if (VmServiceTomcat) { %>
+    apache2 \<% } if (SoftwarePhp) { %>
+    php5 php5-common libapache2-mod-php5 php5-xdebug php5-gd php5-imagick \
+    php5-cli php-pear php5-xmlrpc php5-mysql php5-mcrypt \<% } if (VmServiceMysql) { %>
+    mysql-server-5.5 mysql-client libdbd-mysql libapache2-mod-auth-mysql \<% } if (VmServiceTomcat) { %>
     tomcat<%= TomcatVersion %> tomcat<%= TomcatVersion %>-admin \<% } if (SoftwareGit) { %>
     git git-core<% if (SoftwareGitolite) { %> gitolite gitweb <% } %> \<% } if (SoftwareNodeJs) { %>
     nodejs npm \<% } if (SoftwareSamba) { %>
-    samba smbfs \<% } %>
+    samba smbfs \<% } if (SoftwareSnmp) { %>
+    snmp snmpd snmp-mibs-downloader <% if (VmServiceApache) { %>php5-snmp<% } %> \<% } if (SoftwarePython) { %>
+    python3 <% if (VmServiceMysql) { %>python-mysqldb <% } if (VmServiceApache) { %>libapache2-mod-python<% } %> \<% } if (VmSystemSoftware) { %>
+    <% if (SystemAutoconf) { %>autoconf <% } if (SystemBc) { %>bc <% } if (SystemHtop) { %>htop <% } if (SystemNcurses) { %>ncurses-dev <% } if (SystemLogrotate) { %>logrotate <% } if (SystemLogwatch) { %>logwatch <% } if (SystemLzma) { %>lzma <% } if (SystemScreen) { %>screen <% } if (SystemZip) { %>unzip zip <% } if (SystemRcconf) { %>rcconf sysv-rc-conf <% } %>\<% } %>
     openssl curl
 
 
