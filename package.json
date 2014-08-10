@@ -1,0 +1,38 @@
+{
+  "name": "generator-vagrant",
+  "version": "0.0.0",
+  "description": "Yeoman Generator to create Vagrant development environments.",
+  "keywords": [
+    "yeoman-generator",
+    "vagrant"
+  ],
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "git://github.com/Milanowicz/generator-vagrant.git",
+  "homepage": "https://github.com/Milanowicz/generator-vagrant",
+  "bugs": "https://github.com/Milanowicz/generator-vagrant/issues",
+  "author": {
+    "name": "Milanowicz",
+    "email": "amaru-jive@gmx.de",
+    "url": "https://github.com/Milanowicz"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app"
+  ],
+  "dependencies": {
+    "yeoman-generator": "~0.16.0",
+    "chalk": "~0.4.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  }
+}
