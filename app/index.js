@@ -3,6 +3,7 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
+var prompt = require('./prompt');
 
 /**
  * Yeoman Generator to create Vagrant development environments
@@ -24,6 +25,10 @@ var VagrantGenerator = module.exports = function Vagrantgenerator(args, options,
 
 util.inherits(VagrantGenerator, yeoman.generators.Base);
 
+// Load prompts
+var PromptLinux   = new prompt.linux();
+var PromptVagrant = new prompt.vagrant();
+var PromptWindows = new prompt.windows();
 
 /**
  * User Prompt for the installation for the new VM Box
@@ -35,127 +40,10 @@ VagrantGenerator.prototype.askFor = function askFor () {
     this.log(this.yeoman);
     this.log(chalk.magenta('Welcome to the Yeoman Generator to create Vagrant development environment!'));
 
-    var MainPrompt = [{
-        type: 'list',
-        name: 'VmType',
-        message: 'Select the Box System Type',
-        default: 0,
-        choices: [{
-            name: 'GNU/Linux',
-            value: 'linux'
-        },{
-            name: 'Microsoft Windows',
-            value: 'windows'
-        }]
-    },{
-        type: 'input',
-        name: 'VmName',
-        message: 'Name of VM?',
-        default: 'dev'
-    },{
-        type: 'input',
-        name: 'VmTimeZone',
-        message: 'What Time Zone?',
-        default: 'Europe/Berlin'
-    },{
-        type: 'list',
-        name: 'VmCpus',
-        message: 'Select CPUs',
-        default: 8,
-        choices: [{
-            name: '16 CPUs',
-            value: '16'
-        },{
-            name: '14 CPUs',
-            value: '14'
-        },{
-            name: '12 CPUs',
-            value: '12'
-        },{
-            name: '10 CPUs',
-            value: '10'
-        },{
-            name: '8 CPUs',
-            value: '8'
-        },{
-            name: '6 CPUs',
-            value: '6'
-        },{
-            name: '4 CPUs',
-            value: '4'
-        },{
-            name: '3 CPUs',
-            value: '3'
-        },{
-            name: '2 CPUs',
-            value: '2'
-        },{
-            name: '1 CPU',
-            value: '1'
-        }]
-    },{
-        type: 'list',
-        name: 'VmMemory',
-        message: 'Select VM Memory Size',
-        default: 12,
-        choices: [{
-            name: '16 GigaByte',
-            value: '16384'
-        },{
-            name: '14 GigaByte',
-            value: '14336'
-        },{
-            name: '12 GigaByte',
-            value: '12288'
-        },{
-            name: '10 GigaByte',
-            value: '10240'
-        },{
-            name: '8 GigaByte',
-            value: '8192'
-        },{
-            name: '6 GigaByte',
-            value: '6144'
-        },{
-            name: '5 GigaByte',
-            value: '5120'
-        },{
-            name: '4 GigaByte',
-            value: '4096'
-        },{
-            name: '3 GigaByte',
-            value: '3072'
-        },{
-            name: '2 GigaByte',
-            value: '2048'
-        },{
-            name: '1 GigaByte',
-            value: '1024'
-        },{
-            name: '768 MegaByte',
-            value: '768'
-        },{
-            name: '512 MegaByte',
-            value: '512'
-        },{
-            name: '256 MegaByte',
-            value: '256'
-        },{
-            name: '128 MegaByte',
-            value: '128'
-        }]
-    },{
-        type: 'input',
-        name: 'VmPrivateIp',
-        message: 'Enter private network IP address',
-        default: '10.0.0.10'
-    }];
-
-
     /**
      * Main input prompt
      */
-    this.prompt(MainPrompt, function (answers) {
+    this.prompt(PromptVagrant.MainPrompt, function (answers) {
 
         this.VmName             = this._.slugify(answers.VmName);
         this.VmTimeZone         = answers.VmTimeZone;
@@ -167,6 +55,236 @@ VagrantGenerator.prototype.askFor = function askFor () {
         done();
     }.bind(this));
 
+};
+
+
+/**
+ * Windows Main
+ */
+VagrantGenerator.prototype.askForWindows= function askForWindows () {
+    var done = this.async();
+
+    if (this.VmType === 'windows') {
+        this.prompt(PromptWindows.MainPrompt, function (answers) {
+
+            this.VmImageName        = answers.VmImageName;
+
+            done();
+        }.bind(this));
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * GNU/Linux Main
+ */
+VagrantGenerator.prototype.askForLinux = function askForLinux () {
+    var done = this.async();
+
+    if (this.VmType === 'linux') {
+        this.prompt(PromptLinux.MainPrompt, function (answers) {
+
+            this.VmImageName        = answers.VmImageName;
+            this.VmProvision        = answers.VmProvision;
+
+            this.VmServiceApache    = answers.VmServiceApache;
+            this.VmServiceMysql     = answers.VmServiceMysql;
+            this.VmServiceTomcat    = answers.VmServiceTomcat;
+
+            done();
+        }.bind(this));
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * Vagrant Apache2 input prompt
+ */
+VagrantGenerator.prototype.askForApache = function askForApache () {
+    var done = this.async();
+
+    if (this.VmServiceApache) {
+
+        this.prompt(PromptLinux.ApachePrompt, function (answers) {
+            this.ApacheGuestPort    = answers.ApacheGuestPort;
+            this.ApacheHostPort     = answers.ApacheHostPort;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * Vagrant MySQL input prompt
+ */
+VagrantGenerator.prototype.askForMysql = function askForMysql () {
+    var done = this.async();
+
+    if (this.VmServiceMysql) {
+
+        this.prompt(PromptLinux.MysqlPrompt, function (answers) {
+            this.MysqlGuestPort     = answers.MysqlGuestPort;
+            this.MysqlHostPort      = answers.MysqlHostPort;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * Vagrant Tomcat input prompt
+ */
+VagrantGenerator.prototype.askForTomcat = function askForTomcat () {
+    var done = this.async();
+
+    if (this.VmServiceTomcat) {
+
+        this.prompt(PromptLinux.TomcatPrompt, function (answers) {
+            this.TomcatGuestPort    = answers.TomcatGuestPort;
+            this.TomcatHostPort     = answers.TomcatHostPort;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+
+/**
+ * Configure Apache2 input prompt
+ */
+VagrantGenerator.prototype.askForConfigureApache = function askForConfigureApache () {
+    var done = this.async();
+
+    if (this.VmServiceApache && this.VmProvision !== 'none') {
+
+        this.prompt(PromptLinux.ApacheConfigPrompt, function (answers) {
+            this.ApacheDomain       = this._.slugify(answers.ApacheDomain);
+            this.ApacheHtdocsPath   = answers.ApacheHtdocsPath;
+            this.ApacheXdebugPort   = answers.ApacheXdebugPort;
+            this.ApacheXdebugIdeKey = answers.ApacheXdebugIdeKey;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * Configure MySQL input prompt
+ */
+VagrantGenerator.prototype.askForConfigureMysql = function askForConfigureMysql () {
+    var done = this.async();
+
+    if (this.VmServiceMysql && this.VmProvision !== 'none') {
+
+        this.prompt(PromptLinux.MysqlConfigPrompt, function (answers) {
+            this.MysqlUsername      = answers.MysqlUsername;
+            this.MysqlPassword      = answers.MysqlPassword;
+            this.MysqlDatabaseFiles = answers.MysqlDatabaseFiles;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+/**
+ * Configure Tomcat input prompt
+ */
+VagrantGenerator.prototype.askForConfigureTomcat = function askForConfigureTomcat () {
+    var done = this.async();
+
+    if (this.VmServiceTomcat && this.VmProvision !== 'none') {
+
+        this.prompt(PromptLinux.TomcatPrompt, function (answers) {
+            this.TomcatVersion      = answers.TomcatVersion;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * Software input prompt
+ */
+VagrantGenerator.prototype.askForSoftware = function askForSoftware () {
+    var done = this.async();
+
+    if (this.VmProvision !== 'none') {
+
+        this.prompt(PromptLinux.SoftwarePrompt, function (answers) {
+
+            var VmSoftware          = answers.VmSoftware;
+
+            function hasSoftware (software) {
+                return VmSoftware.indexOf(software) !== -1;
+            }
+
+            this.SoftwareGit        = hasSoftware('git');
+            this.SoftwareGitolite   = hasSoftware('gitolite');
+            this.SoftwareNodeJs     = hasSoftware('node');
+            this.SoftwareSamba      = hasSoftware('samba');
+            this.SoftwareSystem     = hasSoftware('system');
+            this.SoftwarePhp        = hasSoftware('php');
+            this.SoftwarePython     = hasSoftware('python');
+            this.SoftwareSnmp       = hasSoftware('snmp');
+            this.VmSystemSoftware   = answers.VmSystemSoftware;
+
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * System Software input prompt
+ */
+VagrantGenerator.prototype.askForSystemSoftware = function askForSystemSoftware () {
+    var done = this.async();
+
+    if (this.VmProvision !== 'none' && this.VmSystemSoftware) {
+
+        this.prompt(PromptLinux.SystemSoftwarePrompt, function (answers) {
+            this.SystemAutoconf     = answers.autoconf;
+            this.SystemBc           = answers.bc;
+            this.SystemHtop         = answers.htop;
+            this.SystemNcurses      = answers.ncurses;
+            this.SystemLogrotate    = answers.logrotate;
+            this.SystemLogwatch     = answers.logwatch;
+            this.SystemLzma         = answers.lzma;
+            this.SystemNmap         = answers.nmap;
+            this.SystemScreen       = answers.screen;
+            this.SystemTcodump      = answers.tcpdump;
+            this.SystemRcconf       = answers.rcconf;
+            this.SystemZip          = answers.zip;
+            done();
+        }.bind(this));
+
+    } else {
+        done();
+    }
 };
 
 
