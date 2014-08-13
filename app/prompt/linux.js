@@ -34,6 +34,9 @@ var linux = module.exports = (function () {
             name: 'laravel/homestead - Official Laravel local development box.',
             value: 'laravel/homestead'
         },{
+            name: 'smallhadroncollider/centos-6.5-lamp - A Vagrant box that recreates the server setup of many shared hosting companies (e.g. UKHost4u)',
+            value: 'smallhadroncollider/centos-6.5-lamp'
+        },{
             name: 'chef/centos-6.5 - A standard CentOS 6.5 x64 base install',
             value: 'chef/centos-6.5'
         },{

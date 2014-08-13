@@ -3,6 +3,7 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
+var request = require('request');
 var prompt = require('./prompt');
 
 /**
@@ -61,13 +62,21 @@ VagrantGenerator.prototype.askFor = function askFor () {
 /**
  * Windows Main
  */
-VagrantGenerator.prototype.askForWindows= function askForWindows () {
+VagrantGenerator.prototype.askForWindows = function askForWindows () {
     var done = this.async();
 
     if (this.VmType === 'windows') {
         this.prompt(PromptWindows.MainPrompt, function (answers) {
 
+            this.VmProvision        = 'none';
             this.VmImageName        = answers.VmImageName;
+            this.System             = answers.System;
+            this.VmModernImage      = answers.VmModernImage;
+
+            // Check if ModerIE image is select
+            if (this.VmImageName.match(/[ie]{2}[0-9]{1,2}/)) {
+                console.log('Begin to download');
+            }
 
             done();
         }.bind(this));
@@ -203,6 +212,7 @@ VagrantGenerator.prototype.askForConfigureMysql = function askForConfigureMysql 
         done();
     }
 };
+
 
 /**
  * Configure Tomcat input prompt
