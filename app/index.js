@@ -3,7 +3,7 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
-var request = require('request');
+var builder = require('./builder');
 var prompt = require('./prompt');
 
 /**
@@ -17,10 +17,10 @@ var VagrantGenerator = module.exports = function Vagrantgenerator(args, options,
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
     this.on('end', function () {
-        this.spawnCommand('vagrant', ['up'])
+        /*this.spawnCommand('vagrant', ['up'])
             .on('exit', function () {
                 console.log('\n\n\t\tA new Vagrant VM Box served by Yeoman\n\n');
-            });
+            });*/
     });
 };
 
@@ -30,6 +30,7 @@ util.inherits(VagrantGenerator, yeoman.generators.Base);
 var PromptLinux   = new prompt.linux();
 var PromptVagrant = new prompt.vagrant();
 var PromptWindows = new prompt.windows();
+var Downloader    = new builder.download(PromptWindows);
 
 /**
  * User Prompt for the installation for the new VM Box
@@ -71,11 +72,10 @@ VagrantGenerator.prototype.askForWindows = function askForWindows () {
             this.VmProvision        = 'none';
             this.VmImageName        = answers.VmImageName;
             this.System             = answers.System;
-            this.VmModernImage      = answers.VmModernImage;
 
             // Check if ModerIE image is select
             if (this.VmImageName.match(/[ie]{2}[0-9]{1,2}/)) {
-                console.log('Begin to download');
+                Downloader.get(this.System, this.VmImageName);
             }
 
             done();

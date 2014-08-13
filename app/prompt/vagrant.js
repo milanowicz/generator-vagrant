@@ -5,7 +5,7 @@ var vagrant = module.exports = (function () {
         type: 'list',
         name: 'VmType',
         message: 'Select the Box System Type',
-        default: 0,
+        default: 1,
         choices: [{
             name: 'GNU/Linux',
             value: 'linux'
