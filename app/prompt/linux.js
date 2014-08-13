@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Linux prompt definitions
+ * @return {object}
+ */
 var linux = module.exports = (function () {
     this.MainPrompt = [{
         type: 'list',

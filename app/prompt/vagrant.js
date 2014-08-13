@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Vagrant prompt definitions
+ * @return {object}
+ */
 var vagrant = module.exports = (function () {
     this.MainPrompt = [{
         type: 'list',

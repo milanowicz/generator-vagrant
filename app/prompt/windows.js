@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Windows prompt definitions
+ * @return {object}
+ */
 var windows = module.exports = (function () {
 
     this.MainPrompt = [{
@@ -46,6 +50,7 @@ var windows = module.exports = (function () {
     this.VirtualBoxes = {
         Mac : {
             WinXpIe8 : {
+                filename : 'IE8.WinXP.ova',
                 files : [{
                     url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE8-WinXP&parts=2&filename=VMBuild_20131127/VirtualBox/IE8_WinXP/Mac/',
                     file: 'IE8.WinXP.For.MacVirtualBox.part1.sfx'
@@ -56,6 +61,7 @@ var windows = module.exports = (function () {
                 }]
             },
             WinVistaIe7 : {
+                filename : 'IE7.Vista.ova',
                 files : [{
                     url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE7-Vista&parts=4&filename=VMBuild_20131127/VirtualBox/IE7_Vista/Mac/',
                     file: 'IE7.Vista.For.MacVirtualBox.part1.sfx'
@@ -71,6 +77,7 @@ var windows = module.exports = (function () {
                 }]
             },
             WinXpIe6 : {
+                filename : 'IE6.WinXP.ova',
                 files : [{
                     url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE6-WinXP&parts=0&filename=VMBuild_20131127/VirtualBox/IE6_WinXP/Mac/',
                     file: 'IE6.WinXP.For.MacVirtualBox.sfx'
@@ -79,6 +86,7 @@ var windows = module.exports = (function () {
         },
         Linux : {
             WinXpIe8 : {
+                filename : 'IE8.WinXP.ova',
                 files : [{
                     url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE8_WinXP/Linux/',
                     file: 'IE8.WinXP.For.LinuxVirtualBox.part1.sfx'
@@ -88,6 +96,7 @@ var windows = module.exports = (function () {
                 }]
             },
             WinVistaIe7 : {
+                filename : 'IE7.Vista.ova',
                 files : [{
                     url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE7_Vista/Linux/',
                     file: 'IE7.Vista.For.LinuxVirtualBox.part1.sfx'
@@ -103,6 +112,7 @@ var windows = module.exports = (function () {
                 }]
             },
             WinXpIe6 : {
+                filename : 'IE6.WinXP.ova',
                 files : [{
                     url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE6_WinXP/Linux/',
                     file: 'IE6.WinXP.For.LinuxVirtualBox.sfx'
@@ -111,6 +121,7 @@ var windows = module.exports = (function () {
         },
         Windows : {
             WinXpIe8 : {
+                filename : 'IE8.WinXP.ova',
                 files : [{
                     url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE8_WinXP/Windows/',
                     file: 'IE8.WinXP.For.WindowsVirtualBox.part001.exe'
@@ -123,6 +134,7 @@ var windows = module.exports = (function () {
                 }]
             },
             WinVistaIe7 : {
+                filename : 'IE7.Vista.ova',
                 files : [{
                     url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE7_Vista/Windows/',
                     file: 'IE7.Vista.For.WindowsVirtualBox.part001.exe'
@@ -141,6 +153,7 @@ var windows = module.exports = (function () {
                 }]
             },
             WinXpIe6 : {
+                filename : 'IE6.WinXP.ova',
                 files : [{
                     url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE6_WinXP/Windows/',
                     file: 'IE6.WinXP.For.WindowsVirtualBox.part01.exe'

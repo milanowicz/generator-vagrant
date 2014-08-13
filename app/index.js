@@ -30,7 +30,6 @@ util.inherits(VagrantGenerator, yeoman.generators.Base);
 var PromptLinux   = new prompt.linux();
 var PromptVagrant = new prompt.vagrant();
 var PromptWindows = new prompt.windows();
-var Downloader    = new builder.download(PromptWindows);
 
 /**
  * User Prompt for the installation for the new VM Box
@@ -75,7 +74,11 @@ VagrantGenerator.prototype.askForWindows = function askForWindows () {
 
             // Check if ModerIE image is select
             if (this.VmImageName.match(/[ie]{2}[0-9]{1,2}/)) {
+
+                var Downloader    = new builder.download(PromptWindows);
+
                 Downloader.get(this.System, this.VmImageName);
+
             }
 
             done();
