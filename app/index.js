@@ -31,8 +31,9 @@ var PromptLinux   = new prompt.linux();
 var PromptVagrant = new prompt.vagrant();
 var PromptWindows = new prompt.windows();
 
+
 /**
- * User Prompt for the installation for the new VM Box
+ * Start Prompt for a new VM Box
  */
 VagrantGenerator.prototype.askFor = function askFor () {
     var done = this.async();
@@ -44,19 +45,39 @@ VagrantGenerator.prototype.askFor = function askFor () {
     /**
      * Main input prompt
      */
-    this.prompt(PromptVagrant.MainPrompt, function (answers) {
+    this.prompt(PromptVagrant.SelectPrompt, function (answers) {
 
-        this.VmName             = this._.slugify(answers.VmName);
-        this.VmTimeZone         = answers.VmTimeZone;
-        this.VmType             = answers.VmType;
-        this.VmPrivateIp        = answers.VmPrivateIp;
-        this.VmMemory           = answers.VmMemory;
-        this.VmCpus             = answers.VmCpus;
+        this.VmType = answers.VmType;
 
         done();
     }.bind(this));
 
 };
+
+/**
+ * User Prompt for the installation for the new VM Box
+ */
+VagrantGenerator.prototype.askForVagrant = function askForVagrant () {
+    var done = this.async();
+
+    /**
+     * Vagrant input prompt
+     */
+    if (this.VmType !== 'modernie') {
+        this.prompt(PromptVagrant.MainPrompt, function (answers) {
+
+            this.VmName             = this._.slugify(answers.VmName);
+            this.VmTimeZone         = answers.VmTimeZone;
+            this.VmPrivateIp        = answers.VmPrivateIp;
+            this.VmMemory           = answers.VmMemory;
+            this.VmCpus             = answers.VmCpus;
+
+            done();
+        }.bind(this));
+    }
+
+};
+
 
 
 /**
@@ -72,12 +93,33 @@ VagrantGenerator.prototype.askForWindows = function askForWindows () {
             this.VmImageName        = answers.VmImageName;
             this.System             = answers.System;
 
+            done();
+        }.bind(this));
+    } else {
+        done();
+    }
+};
+
+
+/**
+ * ModernIE Windows
+ */
+VagrantGenerator.prototype.askForModernIe = function askForModernIe () {
+    var done = this.async();
+
+    if (this.VmType === 'modernie') {
+        this.prompt(PromptWindows.ModernSystem, function (answers) {
+
+            this.VirtualBoxHome = answers.VirtualBoxHome;
+            this.VmHostSystem   = answers.VmHostSystem;
+            this.ModernIe       = answers.ModernIe;
+
             // Check if ModerIE image is select
             if (this.VmImageName.match(/[ie]{2}[0-9]{1,2}/)) {
 
                 var Downloader    = new builder.download(PromptWindows);
 
-                Downloader.get(this.System, this.VmImageName);
+                Downloader.get(this.VmHostSystem, this.VmImageName, this.VirtualBoxHome);
 
             }
 
@@ -306,10 +348,14 @@ VagrantGenerator.prototype.askForSystemSoftware = function askForSystemSoftware 
  */
 VagrantGenerator.prototype.app = function app () {
 
-    if (this.VmProvision === 'ubuntu') {
-        this.template('ubuntu.sh',   'bootstrap.sh');
-    }
+    if (this.VmType !== 'modernie') {
 
-    this.template('Vagrantfile', 'Vagrantfile');
+        if (this.VmProvision === 'ubuntu') {
+            this.template('ubuntu.sh',   'bootstrap.sh');
+        }
+
+        this.template('Vagrantfile', 'Vagrantfile');
+
+    }
 
 };

@@ -20,9 +20,10 @@ var download = module.exports = (function (WinObject) {
      * Download files
      * @param {string} System - linux, mac, windows
      * @param {string} IE - ie6, ie7, ...
+     * @param {string} SaveAs - Path to save
      * @return void
      */
-    this.get = function (System, IE) {
+    this.get = function (System, IE, SaveAs) {
 
         var LogSystem = '';
         var LogIe = '';
@@ -55,12 +56,20 @@ var download = module.exports = (function (WinObject) {
             IeFiles = FilesObject.WinXpIe8.files;
             LogIe = 'IE 8';
 
+        } else if (IE === 'ie9') {
+            IeFiles = FilesObject.Win7Ie9.files;
+            LogIe = 'IE 9';
+
+        } else if (IE === 'ie10') {
+            IeFiles = FilesObject.Win7Ie10.files;
+            LogIe = 'IE 10';
+
         }
 
         console.log('Begin to download the ' + LogIe + ' for ' + LogSystem);
 
         for (var i = 0; i < IeFiles.length; i++) {
-            request(IeFiles[i].url + '' + IeFiles[i].file).pipe(fs.createWriteStream(IeFiles[i].file));
+            request(IeFiles[i].url + '' + IeFiles[i].file).pipe(fs.createWriteStream('' + SaveAs + '/' + IeFiles[i].url + IeFiles[i].file));
         }
 
     };

@@ -20,19 +20,12 @@ var windows = module.exports = (function () {
         },{
             name: 'ferventcoder/win2008r2-x64-nocm - Windows 2008 R2 x64 with Service Pack 1 (with no configuration management tools)',
             value: 'ferventcoder/win2008r2-x64-nocm'
-        },{
-            name: 'ModernIE 8 - Windows XP',
-            value: 'ie8'
-        },{
-            name: 'ModernIE 7 - Windows Vista',
-            value: 'ie7'
-        },{
-            name: 'ModernIE 6 - Windows XP',
-            value: 'ie6'
         }]
-    },{
+    }];
+
+    this.ModernSystem = [{
         type: 'list',
-        name: 'System',
+        name: 'VmHostSystem',
         message: 'Select your OS',
         default: 0,
         choices: [{
@@ -45,10 +38,68 @@ var windows = module.exports = (function () {
             name: 'Windows',
             value: 'windows'
         }]
+    },{
+        type: 'input',
+        name: 'VirtualBoxHome',
+        message: 'Oracle WirtualBox Home',
+        default: '~/VirtualBox VMs/'
+    },{
+        type: 'list',
+        name: 'ModernIe',
+        message: 'Select your OS',
+        default: 0,
+        choices: [{
+            name: 'ModernIE 8 - Windows XP',
+            value: 'ie10'
+        },{
+            name: 'ModernIE 8 - Windows XP',
+            value: 'ie9'
+        },{
+            name: 'ModernIE 8 - Windows XP',
+            value: 'ie8'
+        },{
+            name: 'ModernIE 7 - Windows Vista',
+            value: 'ie7'
+        },{
+            name: 'ModernIE 6 - Windows XP',
+            value: 'ie6'
+        }]
     }];
 
     this.VirtualBoxes = {
         Mac : {
+            Win7Ie10 : {
+                filename: 'IE10.Win7.ova',
+                files: [{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                }]
+            },
+            Win7Ie9 : {
+                filename: 'IE9.Win7.ova',
+                files: [{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                }]
+            },
             WinXpIe8 : {
                 filename : 'IE8.WinXP.ova',
                 files : [{
@@ -85,6 +136,38 @@ var windows = module.exports = (function () {
             }
         },
         Linux : {
+            Win7Ie10 : {
+                filename: 'IE10.Win7.ova',
+                files: [{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                }]
+            },
+            Win7Ie9 : {
+                filename: 'IE9.Win7.ova',
+                files: [{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                },{
+                    url: '',
+                    file: ''
+                }]
+            },
             WinXpIe8 : {
                 filename : 'IE8.WinXP.ova',
                 files : [{
@@ -120,6 +203,38 @@ var windows = module.exports = (function () {
             }
         },
         Windows : {
+            Win7Ie10 : {
+                filename: 'IE10.Win7.ova',
+                files: [{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE10_Win7/',
+                    file: 'IE10.Win7.For.WindowsVPC.part001.exe'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE10_Win7/',
+                    file: 'IE10.Win7.For.WindowsVPC.part0002.rar'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE10_Win7/',
+                    file: 'IE10.Win7.For.WindowsVPC.part0003.rar'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE10_Win7/',
+                    file: 'IE10.Win7.For.WindowsVPC.part0004.rar'
+                }]
+            },
+            Win7Ie9 : {
+                filename: 'IE9.Win7.ova',
+                files: [{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE9_Win7/',
+                    file: 'IE9.Win7.For.WindowsVPC.part0001.exe'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE9_Win7/',
+                    file: 'IE9.Win7.For.WindowsVPC.part0002.exe'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE9_Win7/',
+                    file: 'IE9.Win7.For.WindowsVPC.part0003.exe'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/Virtual_PC/IE9_Win7/',
+                    file: 'IE9.Win7.For.WindowsVPC.part0004.exe'
+                }]
+            },
             WinXpIe8 : {
                 filename : 'IE8.WinXP.ova',
                 files : [{

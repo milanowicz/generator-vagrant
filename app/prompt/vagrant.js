@@ -5,19 +5,25 @@
  * @return {object}
  */
 var vagrant = module.exports = (function () {
-    this.MainPrompt = [{
+
+    this.SelectPrompt = [{
         type: 'list',
         name: 'VmType',
         message: 'Select the Box System Type',
         default: 1,
         choices: [{
+            name: 'Download ModernIE Windows VirtualBox Images',
+            value: 'modernie'
+        },{
             name: 'GNU/Linux',
             value: 'linux'
         },{
             name: 'Microsoft Windows',
             value: 'windows'
         }]
-    },{
+    }];
+
+    this.MainPrompt = [{
         type: 'input',
         name: 'VmName',
         message: 'Name of VM?',
