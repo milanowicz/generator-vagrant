@@ -49,10 +49,13 @@ var windows = module.exports = (function () {
         message: 'Select your OS',
         default: 0,
         choices: [{
-            name: 'ModernIE 8 - Windows XP',
-            value: 'ie10'
+            name: 'ModernIE 10 - Windows 8',
+            value: 'ie10win8'
         },{
-            name: 'ModernIE 8 - Windows XP',
+            name: 'ModernIE 10 - Windows 7',
+            value: 'ie10win7'
+        },{
+            name: 'ModernIE 9 - Windows 7',
             value: 'ie9'
         },{
             name: 'ModernIE 8 - Windows XP',
@@ -68,36 +71,55 @@ var windows = module.exports = (function () {
 
     this.VirtualBoxes = {
         Mac : {
+            Win8Ie10 : {
+                filename: 'IE10.Win8.ova',
+                files: [{
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win8.1&parts=5&filename=VMBuild_20131127/VirtualBox/IE10_Win8/Mac/',
+                    file: 'IE10.Win8.For.MacVirtualBox.part1.sfx'
+                },{
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win8.For.MacVirtualBox.part2.rar'
+                },{
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win8.For.MacVirtualBox.part3.rar'
+                },{
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win8.For.MacVirtualBox.part4.rar'
+                },{
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win8.For.MacVirtualBox.part5.rar'
+                }]
+            },
             Win7Ie10 : {
                 filename: 'IE10.Win7.ova',
                 files: [{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win7.For.MacVirtualBox.part1.sfx'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win7.For.MacVirtualBox.part2.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win7.For.MacVirtualBox.part3.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE10-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE10_Win7/Mac/',
+                    file: 'IE10.Win7.For.MacVirtualBox.part4.rar'
                 }]
             },
             Win7Ie9 : {
                 filename: 'IE9.Win7.ova',
                 files: [{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE9-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE9_Win7/Mac/',
+                    file: 'IE9.Win7.For.MacVirtualBox.part1.sfx'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE9-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE9_Win7/Mac/',
+                    file: 'IE9.Win7.For.MacVirtualBox.part2.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE9-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE9_Win7/Mac/',
+                    file: 'IE9.Win7.For.MacVirtualBox.part3.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://www.modern.ie/vmdownload?platform=mac&virtPlatform=virtualbox&browserOS=IE9-Win7&parts=4&filename=VMBuild_20131127/VirtualBox/IE9_Win7/Mac/',
+                    file: 'IE9.Win7.For.MacVirtualBox.part4.rar'
                 }]
             },
             WinXpIe8 : {
@@ -136,36 +158,55 @@ var windows = module.exports = (function () {
             }
         },
         Linux : {
+            Win8Ie10 : {
+                filename: 'IE10.Win8.ova',
+                files: [{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win8/Linux/',
+                    file: 'IE10.Win8.For.LinuxVirtualBox.part1.sfx'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win8/Linux/',
+                    file: 'IE10.Win8.For.LinuxVirtualBox.part2.rar'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win8/Linux/',
+                    file: 'IE10.Win8.For.LinuxVirtualBox.part3.rar'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win8/Linux/',
+                    file: 'IE10.Win8.For.LinuxVirtualBox.part4.rar'
+                },{
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win8/Linux/',
+                    file: 'IE10.Win8.For.LinuxVirtualBox.part5.rar'
+                }]
+            },
             Win7Ie10 : {
                 filename: 'IE10.Win7.ova',
                 files: [{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win7/Linux/',
+                    file: 'IE10.Win7.For.LinuxVirtualBox.part1.sfx'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win7/Linux/',
+                    file: 'IE10.Win7.For.LinuxVirtualBox.part2.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win7/Linux/',
+                    file: 'IE10.Win7.For.LinuxVirtualBox.part3.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE10_Win7/Linux/',
+                    file: 'IE10.Win7.For.LinuxVirtualBox.part4.rar'
                 }]
             },
             Win7Ie9 : {
                 filename: 'IE9.Win7.ova',
                 files: [{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE9_Win7/Linux/',
+                    file: 'IE9.Win7.For.LinuxVirtualBox.part1.sfx'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE9_Win7/Linux/',
+                    file: 'IE9.Win7.For.LinuxVirtualBox.part2.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE9_Win7/Linux/',
+                    file: 'IE9.Win7.For.LinuxVirtualBox.part3.rar'
                 },{
-                    url: '',
-                    file: ''
+                    url: 'https://az412801.vo.msecnd.net/vhd/VMBuild_20131127/VirtualBox/IE9_Win7/Linux/',
+                    file: 'IE9.Win7.For.LinuxVirtualBox.part4.rar'
                 }]
             },
             WinXpIe8 : {

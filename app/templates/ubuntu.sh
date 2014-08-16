@@ -5,6 +5,7 @@
 
 # Timezone for the system
 TimeZone="<%= VmTimeZone %>"
+<% if (VmServiceMysql) { %>
 <% if (MysqlDatabaseFiles != '') { %>
 # Path to repo db path
 DBPath="/var/www/db"
@@ -13,7 +14,7 @@ DBPath="/var/www/db"
 DBNames="<% MysqlDatabaseFiles %>"
 
 # Real MySQL Databasename
-MySQLDB="<% MysqlDatabaseFiles %>"<% } %>
+MySQLDB="<% MysqlDatabaseFiles %>"<% } %><% } %>
 
 
 ########################################################################################################################

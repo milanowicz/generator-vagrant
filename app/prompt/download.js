@@ -60,16 +60,32 @@ var download = module.exports = (function (WinObject) {
             IeFiles = FilesObject.Win7Ie9.files;
             LogIe = 'IE 9';
 
-        } else if (IE === 'ie10') {
+        } else if (IE === 'ie10win7') {
             IeFiles = FilesObject.Win7Ie10.files;
-            LogIe = 'IE 10';
+            LogIe = 'IE 10 for Windows 7';
+
+        } else if (IE === 'ie10win8') {
+            IeFiles = FilesObject.Win8Ie10.files;
+            LogIe = 'IE 10 for Windows 8';
 
         }
 
-        console.log('Begin to download the ' + LogIe + ' for ' + LogSystem);
+        if (typeof(IeFiles) !== 'undefined') {
 
-        for (var i = 0; i < IeFiles.length; i++) {
-            request(IeFiles[i].url + '' + IeFiles[i].file).pipe(fs.createWriteStream('' + SaveAs + '/' + IeFiles[i].url + IeFiles[i].file));
+            console.log('Begin to download the ' + LogIe + ' for ' + LogSystem);
+
+            for (var i = 0; i < IeFiles.length; i++) {
+                request(IeFiles[i].url + '' + IeFiles[i].file).pipe(fs.createWriteStream('' + SaveAs + '/' + IeFiles[i].url + IeFiles[i].file));
+            }
+
+            console.log('\n\n\t\tYeoman has download a ModernIE Image for ' + LogIe + ' for ' + LogSystem + '\n\n');
+
+
+        } else {
+
+            console.log('Error: Image not available ' + LogIe + ' for the ' + LogSystem * ' Sytem!');
+            console.log('Please choose another Image');
+
         }
 
     };

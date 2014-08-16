@@ -5,6 +5,8 @@
 
 ## VM Boxes
 
+### GNU/Linux
+
 * ubuntu/trusty64 - Official Ubuntu Server 14.04 LTS (Trusty Tahr) builds
 
 * puphpet/ubuntu1404-x64 - Ubuntu Trusty 14.04 LTS x64
@@ -30,13 +32,39 @@
 * chef/freebsd-9.2 - A standard FreeBSD 9.2 x64 base install
 
 
-### Provision Debian Ubuntu
+#### Provision Debian Ubuntu
 
 * Apach2
 
 * MySQL
 
 * Tomcat
+
+
+### Windows
+
+* ferventcoder/win7pro-x64-nocm-lite - Windows 7 Professional x64 with Service Pack 1 - Lite (with no configuration management tools)
+
+* opentable/win-2012r2-standard-amd64-nocm - Windows 2012 R2 Standard Edition x64 (with no configuration management tools)
+
+* ferventcoder/win2008r2-x64-nocm - Windows 2008 R2 x64 with Service Pack 1 (with no configuration management tools)
+
+
+### ModernIE
+
+Download one of them you like:
+
+* ModernIE 10 - Windows 8
+
+* ModernIE 10 - Windows 7
+
+* ModernIE 9 - Windows 7
+
+* ModernIE 8 - Windows XP
+
+* ModernIE 7 - Windows Vista
+
+* ModernIE 6 - Windows XP
 
 
 ## Getting Started

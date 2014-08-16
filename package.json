@@ -1,6 +1,6 @@
 {
   "name": "generator-vagrant",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Yeoman Generator to create Vagrant development environments.",
   "keywords": [
     "yeoman-generator",

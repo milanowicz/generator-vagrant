@@ -29,11 +29,6 @@ var vagrant = module.exports = (function () {
         message: 'Name of VM?',
         default: 'dev'
     },{
-        type: 'input',
-        name: 'VmTimeZone',
-        message: 'What Time Zone?',
-        default: 'Europe/Berlin'
-    },{
         type: 'list',
         name: 'VmCpus',
         message: 'Select CPUs',

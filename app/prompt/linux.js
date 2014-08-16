@@ -63,6 +63,11 @@ var linux = module.exports = (function () {
             value: 'ubuntu'
         }]
     },{
+        type: 'input',
+        name: 'VmTimeZone',
+        message: 'What Time Zone?',
+        default: 'Europe/Berlin'
+    },{
         type: 'confirm',
         name: 'VmServiceApache',
         message: 'Active Apache2 Webserver?',
